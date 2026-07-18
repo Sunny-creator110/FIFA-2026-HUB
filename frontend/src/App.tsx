@@ -16,6 +16,7 @@ function AppContent() {
   
   // Authentication & Incident states
   const [showIncidentLogs, setShowIncidentLogs] = useState(false);
+  const [showSupportPanel, setShowSupportPanel] = useState(false);
 
   // Cycle languages
   const toggleLanguage = () => {
@@ -247,11 +248,17 @@ function AppContent() {
           </button>
           
           <div className="flex border-t border-[#444653]/20 pt-4 gap-2 text-xs">
-            <button className="flex-1 flex flex-col items-center py-2 text-[#c4c5d5] hover:bg-[#303540]/20 rounded-lg">
+            <button 
+              onClick={() => setShowSupportPanel(true)}
+              className="flex-1 flex flex-col items-center py-2 text-[#c4c5d5] hover:bg-[#303540]/20 hover:text-[#b5c4ff] rounded-lg cursor-pointer transition-colors"
+            >
               <span className="material-symbols-outlined text-lg">help_outline</span>
               <span className="text-[10px] mt-0.5">Support</span>
             </button>
-            <button className="flex-1 flex flex-col items-center py-2 text-[#c4c5d5] hover:bg-[#303540]/20 rounded-lg">
+            <button 
+              onClick={() => setShowIncidentLogs(true)}
+              className="flex-1 flex flex-col items-center py-2 text-[#c4c5d5] hover:bg-[#303540]/20 hover:text-[#f2bf52] rounded-lg cursor-pointer transition-colors"
+            >
               <span className="material-symbols-outlined text-lg">history_edu</span>
               <span className="text-[10px] mt-0.5">Logs</span>
             </button>
@@ -475,6 +482,72 @@ function AppContent() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Support Panel Modal */}
+        {showSupportPanel && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-fade-in">
+            <div className="bg-[#171c26] border border-[#b5c4ff]/30 w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-5">
+              <div className="flex justify-between items-center border-b border-white/10 pb-3">
+                <h3 className="font-headline-md text-base font-bold text-white flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#b5c4ff]">help_outline</span>
+                  FanPulse 2026 Support Center
+                </h3>
+                <button 
+                  onClick={() => setShowSupportPanel(false)}
+                  className="text-xs px-2.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[#dee2f1] cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#b5c4ff]/30 transition-all cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[#b5c4ff]">chat</span>
+                    <div>
+                      <p className="text-sm font-bold text-slate-200">Live Chat Support</p>
+                      <p className="text-[10px] text-[#c4c5d5] mt-0.5">Connect with a stadium operations coordinator in real time.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#f2bf52]/30 transition-all cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[#f2bf52]">call</span>
+                    <div>
+                      <p className="text-sm font-bold text-slate-200">Emergency Hotline</p>
+                      <p className="text-[10px] text-[#c4c5d5] mt-0.5">24/7 Stadium Command Center: <span className="text-[#f2bf52] font-bold">+1 (800) FIFA-2026</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-emerald-500/30 transition-all cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-emerald-400">mail</span>
+                    <div>
+                      <p className="text-sm font-bold text-slate-200">Email Support</p>
+                      <p className="text-[10px] text-[#c4c5d5] mt-0.5">Send a detailed report: <span className="text-emerald-400 font-bold">ops@fanpulse2026.fifa.com</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-[#ffb4a9]/30 transition-all cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[#ffb4a9]">bug_report</span>
+                    <div>
+                      <p className="text-sm font-bold text-slate-200">Report a Bug</p>
+                      <p className="text-[10px] text-[#c4c5d5] mt-0.5">Found an issue with the portal? File a ticket for quick resolution.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button 
+                onClick={() => setShowSupportPanel(false)}
+                className="w-full py-2.5 bg-[#003399] hover:bg-[#153ea3] text-[#b5c4ff] font-bold text-xs rounded-xl border border-white/5 cursor-pointer uppercase tracking-wider"
+              >
+                Close Support
+              </button>
             </div>
           </div>
         )}
