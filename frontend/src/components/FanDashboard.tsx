@@ -18,6 +18,8 @@ interface GateStatus {
   status: string;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export const FanDashboard: React.FC = () => {
   const { language, t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -91,7 +93,7 @@ export const FanDashboard: React.FC = () => {
   const fetchTelemetry = async () => {
     try {
       setErrorMessage(null);
-      const res = await fetch('http://localhost:5000/api/stadium/status');
+      const res = await fetch(`${API_BASE}/api/stadium/status`);
       if (!res.ok) throw new Error('Failed to fetch stadium status');
       const json = await res.json();
       if (json.status === 'success') {
@@ -151,7 +153,7 @@ export const FanDashboard: React.FC = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/assistant/query', {
+      const res = await fetch(`${API_BASE}/api/assistant/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: textToSend, language })

@@ -28,6 +28,8 @@ interface OpsResponse {
   checklist: VolunteerTask[];
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export const OpsDashboard: React.FC = () => {
   const { language, t } = useLanguage();
   const [scenarioInput, setScenarioInput] = useState('');
@@ -44,7 +46,7 @@ export const OpsDashboard: React.FC = () => {
 
   const fetchTelemetry = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/stadium/status');
+      const res = await fetch(`${API_BASE}/api/stadium/status`);
       if (!res.ok) throw new Error('API server offline');
       const json = await res.json();
       if (json.status === 'success') {
@@ -95,7 +97,7 @@ export const OpsDashboard: React.FC = () => {
     setDispatchAlert(false);
 
     try {
-      const res = await fetch('http://localhost:5000/api/ops/scenario', {
+      const res = await fetch(`${API_BASE}/api/ops/scenario`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ scenario: scenarioInput, language })
