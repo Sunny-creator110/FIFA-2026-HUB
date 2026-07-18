@@ -38,8 +38,12 @@ app.use((req: Request, res: Response) => {
   });
 });
 
+interface CustomError extends Error {
+  status?: number;
+}
+
 // Global Error Handler (Sanitizes error leaks to client)
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
   console.error('Unhandled Error:', err.message || err);
   
   const isDev = process.env.NODE_ENV === 'development';

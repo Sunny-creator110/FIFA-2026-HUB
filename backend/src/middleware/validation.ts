@@ -3,9 +3,9 @@ import { z, ZodError } from 'zod';
 
 export const querySchema = z.object({
   query: z.string()
+    .trim()
     .min(1, { message: 'Query cannot be empty.' })
-    .max(1000, { message: 'Query must be less than 1000 characters.' })
-    .trim(),
+    .max(1000, { message: 'Query must be less than 1000 characters.' }),
   language: z.enum(['en', 'es', 'fr'], {
     errorMap: () => ({ message: 'Language must be en, es, or fr.' })
   })
@@ -13,9 +13,9 @@ export const querySchema = z.object({
 
 export const scenarioSchema = z.object({
   scenario: z.string()
+    .trim()
     .min(1, { message: 'Scenario cannot be empty.' })
-    .max(1000, { message: 'Scenario must be less than 1000 characters.' })
-    .trim(),
+    .max(1000, { message: 'Scenario must be less than 1000 characters.' }),
   language: z.enum(['en', 'es', 'fr'], {
     errorMap: () => ({ message: 'Language must be en, es, or fr.' })
   })

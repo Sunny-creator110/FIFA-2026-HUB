@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import type { LanguageType } from './context/LanguageContext';
-import { FanDashboard } from './components/FanDashboard';
-import { OpsDashboard } from './components/OpsDashboard';
-import { VolunteerHub } from './components/VolunteerHub';
-import { InclusiveHub } from './components/InclusiveHub';
+
+const FanDashboard = lazy(() => import('./components/FanDashboard').then(m => ({ default: m.FanDashboard })));
+const OpsDashboard = lazy(() => import('./components/OpsDashboard').then(m => ({ default: m.OpsDashboard })));
+const VolunteerHub = lazy(() => import('./components/VolunteerHub').then(m => ({ default: m.VolunteerHub })));
+const InclusiveHub = lazy(() => import('./components/InclusiveHub').then(m => ({ default: m.InclusiveHub })));
+
+function DashboardLoader() {
+  return (
+    <div className="w-full h-96 flex flex-col items-center justify-center space-y-4 bg-[#171c26]/40 rounded-2xl border border-white/5 p-8 animate-pulse">
+      <span className="material-symbols-outlined text-4xl text-[#b5c4ff] animate-spin">sync</span>
+      <p className="text-sm font-semibold text-[#c4c5d5]">Loading FIFA 2026 Operational Module...</p>
+    </div>
+  );
+}
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<'ops' | 'fan' | 'volunteers' | 'inclusive'>('ops');
@@ -47,35 +57,51 @@ function AppContent() {
               FIFA 2026 HUB
             </span>
           </div>
-          <div className="hidden lg:flex gap-6 items-center">
+          <div className="hidden lg:flex gap-6 items-center" role="tablist" aria-label="Main Navigation Tabs">
             <button 
+              id="tab-ops"
+              role="tab"
+              aria-selected={activeTab === 'ops'}
+              aria-controls="tabpanel-ops"
               onClick={() => setActiveTab('ops')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'ops' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'ops' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Operations Center
             </button>
             <button 
+              id="tab-fan"
+              role="tab"
+              aria-selected={activeTab === 'fan'}
+              aria-controls="tabpanel-fan"
               onClick={() => setActiveTab('fan')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'fan' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'fan' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Fan Concierge
             </button>
             <button 
+              id="tab-volunteers"
+              role="tab"
+              aria-selected={activeTab === 'volunteers'}
+              aria-controls="tabpanel-volunteers"
               onClick={() => setActiveTab('volunteers')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'volunteers' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'volunteers' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Volunteer Command
             </button>
             <button 
+              id="tab-inclusive"
+              role="tab"
+              aria-selected={activeTab === 'inclusive'}
+              aria-controls="tabpanel-inclusive"
               onClick={() => setActiveTab('inclusive')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'inclusive' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'inclusive' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Inclusive Hub
@@ -401,38 +427,44 @@ function AppContent() {
           </div>
         )}
 
-        {/* Render dashboards based on active tab state */}
-        <div
-          id="tabpanel-ops"
-          role="tabpanel"
-          className={activeTab === 'ops' ? 'block' : 'hidden'}
-        >
-          <OpsDashboard />
-        </div>
+        {/* Render dashboards with Suspense lazy loading */}
+        <Suspense fallback={<DashboardLoader />}>
+          <div
+            id="tabpanel-ops"
+            role="tabpanel"
+            aria-labelledby="tab-ops"
+            className={activeTab === 'ops' ? 'block' : 'hidden'}
+          >
+            <OpsDashboard />
+          </div>
 
-        <div
-          id="tabpanel-fan"
-          role="tabpanel"
-          className={activeTab === 'fan' ? 'block' : 'hidden'}
-        >
-          <FanDashboard />
-        </div>
+          <div
+            id="tabpanel-fan"
+            role="tabpanel"
+            aria-labelledby="tab-fan"
+            className={activeTab === 'fan' ? 'block' : 'hidden'}
+          >
+            <FanDashboard />
+          </div>
 
-        <div
-          id="tabpanel-volunteers"
-          role="tabpanel"
-          className={activeTab === 'volunteers' ? 'block' : 'hidden'}
-        >
-          <VolunteerHub />
-        </div>
+          <div
+            id="tabpanel-volunteers"
+            role="tabpanel"
+            aria-labelledby="tab-volunteers"
+            className={activeTab === 'volunteers' ? 'block' : 'hidden'}
+          >
+            <VolunteerHub />
+          </div>
 
-        <div
-          id="tabpanel-inclusive"
-          role="tabpanel"
-          className={activeTab === 'inclusive' ? 'block' : 'hidden'}
-        >
-          <InclusiveHub />
-        </div>
+          <div
+            id="tabpanel-inclusive"
+            role="tabpanel"
+            aria-labelledby="tab-inclusive"
+            className={activeTab === 'inclusive' ? 'block' : 'hidden'}
+          >
+            <InclusiveHub />
+          </div>
+        </Suspense>
 
         {/* Incident Logs Modal */}
         {showIncidentLogs && (

@@ -1,8 +1,24 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const apiKey = process.env.GEMINI_API_KEY;
 
-function getMockFanResponse(query: string, language: string) {
+interface FanResponse {
+  response: string;
+  routeHighlight?: string;
+  crowdStatusAlert?: string;
+}
+
+const INJECTION_PATTERNS = [
+  /ignore\s+(?:previous|all|the)\s+(?:instruction|directive|prompt|rule)/i,
+  /you\s+are\s+now\s+a/i,
+  /system\s+bypass/i,
+  /disable\s+safety/i,
+  /<script>/i,
+  /javascript:/i
+];
+
+function getMockFanResponse(query: string, language: string): FanResponse {
   const q = query ? query.toLowerCase() : '';
   if (q.includes('gate 4') || q.includes('congest') || q.includes('crowd') || q.includes('queue')) {
     if (language === 'es') {
@@ -46,7 +62,11 @@ function getMockFanResponse(query: string, language: string) {
   };
 }
 
-export default async function handler(req: any, res: any) {
+/**
+ * Vercel Serverless Function: AI Fan Concierge Query API
+ * Connects to Gemini 2.0 Flash with safety guardrails and multi-lingual fallback.
+ */
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -55,10 +75,18 @@ export default async function handler(req: any, res: any) {
     return res.status(200).end();
   }
 
-  const { query, language } = req.body || {};
+  const { query, language } = (req.body || {}) as { query?: string; language?: string };
+
+  // Guardrail check
+  if (query && INJECTION_PATTERNS.some(pattern => pattern.test(query))) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Security Alert: Unsafe input pattern or prompt injection detected.'
+    });
+  }
 
   if (!apiKey) {
-    return res.status(200).json({ status: 'success', data: getMockFanResponse(query, language) });
+    return res.status(200).json({ status: 'success', data: getMockFanResponse(query || '', language || 'en') });
   }
 
   try {
@@ -68,7 +96,7 @@ export default async function handler(req: any, res: any) {
       You are the official Fan Assistant Concierge for "FanPulse 2026" at the FIFA World Cup Stadium Hub.
       The user is asking a query in the stadium. You must respond in the requested language: "${language || 'en'}".
       
-      User Query: "${query}"
+      User Query: "${query || ''}"
 
       Context:
       - Stadium gates: Gate 1 (North - VIP), Gate 2 (East - General & Accessible Ramp), Gate 3 (South - General), Gate 4 (West - General, experiencing scanner delays and bottleneck), Gate 5 (Northeast - General & Accessible Ramp).
@@ -94,6 +122,6 @@ export default async function handler(req: any, res: any) {
     return res.status(200).json({ status: 'success', data: JSON.parse(cleanJson.trim()) });
   } catch (err) {
     console.error('Vercel serverless gemini query error:', err);
-    return res.status(200).json({ status: 'success', data: getMockFanResponse(query, language) });
+    return res.status(200).json({ status: 'success', data: getMockFanResponse(query || '', language || 'en') });
   }
 }

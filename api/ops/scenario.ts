@@ -1,8 +1,30 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const apiKey = process.env.GEMINI_API_KEY;
 
-function getMockOpsResponse(scenario: string, language: string) {
+interface VolunteerTask {
+  task: string;
+  assignee: 'Volunteer Core' | 'Logistics Staff' | 'Medical' | 'Security';
+  priority: 'High' | 'Medium' | 'Low';
+}
+
+interface OpsResponse {
+  title: string;
+  severity: 'low' | 'medium' | 'high';
+  checklist: VolunteerTask[];
+}
+
+const INJECTION_PATTERNS = [
+  /ignore\s+(?:previous|all|the)\s+(?:instruction|directive|prompt|rule)/i,
+  /you\s+are\s+now\s+a/i,
+  /system\s+bypass/i,
+  /disable\s+safety/i,
+  /<script>/i,
+  /javascript:/i
+];
+
+function getMockOpsResponse(scenario: string, language: string): OpsResponse {
   const s = scenario ? scenario.toLowerCase() : '';
   if (s.includes('gate 4') || s.includes('bottleneck') || s.includes('congest') || s.includes('crowd')) {
     return {
@@ -27,7 +49,11 @@ function getMockOpsResponse(scenario: string, language: string) {
   };
 }
 
-export default async function handler(req: any, res: any) {
+/**
+ * Vercel Serverless Function: Operations Generative Scenario Checklist API
+ * Evaluates stadium incident scenarios and constructs real-time staff/volunteer dispatch checklists.
+ */
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -36,10 +62,18 @@ export default async function handler(req: any, res: any) {
     return res.status(200).end();
   }
 
-  const { scenario, language } = req.body || {};
+  const { scenario, language } = (req.body || {}) as { scenario?: string; language?: string };
+
+  // Security guardrail check
+  if (scenario && INJECTION_PATTERNS.some(pattern => pattern.test(scenario))) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Security Alert: Unsafe input pattern or prompt injection detected.'
+    });
+  }
 
   if (!apiKey) {
-    return res.status(200).json({ status: 'success', data: getMockOpsResponse(scenario, language) });
+    return res.status(200).json({ status: 'success', data: getMockOpsResponse(scenario || '', language || 'en') });
   }
 
   try {
@@ -48,7 +82,7 @@ export default async function handler(req: any, res: any) {
     const prompt = `
       You are the lead venue operations coordinator for the 2026 FIFA World Cup.
       An organizer has input a natural language scenario detailing a stadium operations issue:
-      Scenario: "${scenario}"
+      Scenario: "${scenario || ''}"
 
       Generate a checklist of action items for volunteers and staff. Translate the content of your response (title and tasks) to the requested language: "${language || 'en'}".
 
@@ -76,6 +110,6 @@ export default async function handler(req: any, res: any) {
     return res.status(200).json({ status: 'success', data: JSON.parse(cleanJson.trim()) });
   } catch (err) {
     console.error('Vercel serverless ops scenario error:', err);
-    return res.status(200).json({ status: 'success', data: getMockOpsResponse(scenario, language) });
+    return res.status(200).json({ status: 'success', data: getMockOpsResponse(scenario || '', language || 'en') });
   }
 }
