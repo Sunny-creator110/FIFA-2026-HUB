@@ -13,6 +13,7 @@ function AppContent() {
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [showTutorial, setShowTutorial] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   // Authentication & Incident states
   const [showIncidentLogs, setShowIncidentLogs] = useState(false);
@@ -30,11 +31,19 @@ function AppContent() {
     <div className="min-h-screen bg-[#0e131d] text-[#dee2f1] flex flex-col font-sans selection:bg-[#3557bc] selection:text-white pb-6">
       
       {/* TopNavBar */}
-      <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#0e131d]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_0_15px_rgba(53,87,188,0.25)]">
-        <div className="flex items-center gap-6">
+      <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-3 md:px-6 h-14 md:h-16 bg-[#0e131d]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_0_15px_rgba(53,87,188,0.25)]">
+        <div className="flex items-center gap-3 md:gap-6">
+          {/* Mobile hamburger */}
+          <button 
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="lg:hidden material-symbols-outlined text-[#b5c4ff] hover:bg-[#303540]/50 p-1.5 rounded-lg transition-all cursor-pointer text-2xl"
+            aria-label="Toggle sidebar"
+          >
+            {sidebarOpen ? 'close' : 'menu'}
+          </button>
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#b5c4ff] text-2xl font-black">sports_soccer</span>
-            <span className="font-headline-md text-xl md:text-2xl font-black text-[#b5c4ff] tracking-tighter">
+            <span className="material-symbols-outlined text-[#b5c4ff] text-xl md:text-2xl font-black">sports_soccer</span>
+            <span className="font-headline-md text-lg md:text-2xl font-black text-[#b5c4ff] tracking-tighter">
               FIFA 2026 HUB
             </span>
           </div>
@@ -170,7 +179,17 @@ function AppContent() {
       </nav>
 
       {/* SideNavBar */}
-      <aside className="fixed left-0 top-16 bottom-0 z-40 flex flex-col bg-[#090e18]/80 backdrop-blur-3xl border-r border-[#444653]/20 shadow-2xl w-64 transition-all duration-300 ease-in-out">
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden" 
+          onClick={() => setSidebarOpen(false)} 
+        />
+      )}
+
+      <aside className={`fixed left-0 top-14 md:top-16 bottom-0 z-40 flex flex-col bg-[#090e18]/95 lg:bg-[#090e18]/80 backdrop-blur-3xl border-r border-[#444653]/20 shadow-2xl w-64 transition-all duration-300 ease-in-out ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      }`}>
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-[#003399] flex items-center justify-center">
@@ -186,7 +205,7 @@ function AppContent() {
         {/* Sidebar Nav Buttons */}
         <nav className="flex-1 px-4 space-y-1">
           <button 
-            onClick={() => setActiveTab('ops')}
+            onClick={() => { setActiveTab('ops'); setSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
               activeTab === 'ops' 
                 ? 'bg-[#003399]/30 text-[#b5c4ff] border-r-4 border-[#f2bf52] shadow-inner' 
@@ -198,7 +217,7 @@ function AppContent() {
           </button>
           
           <button 
-            onClick={() => setActiveTab('fan')}
+            onClick={() => { setActiveTab('fan'); setSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
               activeTab === 'fan' 
                 ? 'bg-[#003399]/30 text-[#b5c4ff] border-r-4 border-[#f2bf52] shadow-inner' 
@@ -210,7 +229,7 @@ function AppContent() {
           </button>
           
           <button 
-            onClick={() => setActiveTab('volunteers')}
+            onClick={() => { setActiveTab('volunteers'); setSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
               activeTab === 'volunteers' 
                 ? 'bg-[#003399]/30 text-[#b5c4ff] border-r-4 border-[#f2bf52] shadow-inner' 
@@ -222,7 +241,7 @@ function AppContent() {
           </button>
           
           <button 
-            onClick={() => setActiveTab('inclusive')}
+            onClick={() => { setActiveTab('inclusive'); setSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
               activeTab === 'inclusive' 
                 ? 'bg-[#003399]/30 text-[#b5c4ff] border-r-4 border-[#f2bf52] shadow-inner' 
@@ -267,7 +286,7 @@ function AppContent() {
       </aside>
 
       {/* Main Content Canvas */}
-      <main className="ml-64 mt-16 p-6 min-h-screen bg-[#0e131d] relative overflow-hidden">
+      <main className="ml-0 lg:ml-64 mt-14 md:mt-16 p-3 md:p-6 pb-20 lg:pb-6 min-h-screen bg-[#0e131d] relative overflow-hidden">
         
         {/* Decorative ambient background blur */}
         <div className="absolute top-1/4 left-1/2 w-96 h-96 bg-[#3557bc]/5 rounded-full blur-3xl pointer-events-none" />
@@ -552,6 +571,55 @@ function AppContent() {
           </div>
         )}
       </main>
+
+      {/* Mobile Bottom Tab Bar */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#090e18]/95 backdrop-blur-xl border-t border-white/10 flex justify-around items-center h-14 px-1">
+        <button 
+          onClick={() => setActiveTab('ops')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors cursor-pointer ${
+            activeTab === 'ops' ? 'text-[#b5c4ff]' : 'text-[#c4c5d5]'
+          }`}
+        >
+          <span className="material-symbols-outlined text-xl">dashboard</span>
+          <span className="text-[8px] font-bold mt-0.5">Ops</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('fan')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors cursor-pointer ${
+            activeTab === 'fan' ? 'text-[#b5c4ff]' : 'text-[#c4c5d5]'
+          }`}
+        >
+          <span className="material-symbols-outlined text-xl">smart_toy</span>
+          <span className="text-[8px] font-bold mt-0.5">Fan</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('volunteers')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors cursor-pointer ${
+            activeTab === 'volunteers' ? 'text-[#b5c4ff]' : 'text-[#c4c5d5]'
+          }`}
+        >
+          <span className="material-symbols-outlined text-xl">groups_2</span>
+          <span className="text-[8px] font-bold mt-0.5">Volunteer</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('inclusive')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors cursor-pointer ${
+            activeTab === 'inclusive' ? 'text-[#b5c4ff]' : 'text-[#c4c5d5]'
+          }`}
+        >
+          <span className="material-symbols-outlined text-xl">accessibility_new</span>
+          <span className="text-[8px] font-bold mt-0.5">Access</span>
+        </button>
+        <button 
+          onClick={() => setEmergencyActive(!emergencyActive)}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors cursor-pointer ${
+            emergencyActive ? 'text-red-400 animate-pulse' : 'text-[#ffb4a9]'
+          }`}
+        >
+          <span className="material-symbols-outlined text-xl">emergency</span>
+          <span className="text-[8px] font-bold mt-0.5">SOS</span>
+        </button>
+      </nav>
 
     </div>
   );
