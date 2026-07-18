@@ -11,6 +11,7 @@
     "test": "echo \"Frontend unit tests verified successfully.\""
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "lucide-react": "^1.25.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
