@@ -1,8 +1,8 @@
-import type { ContextRecommendation, MatchPhase, StadiumState, UserRole, ZoneId } from './types';
+import type { ContextRecommendation, StadiumState, UserRole, ZoneId } from './types';
 
 export function getContextRecommendations(
   role: UserRole,
-  userZoneId: ZoneId,
+  _userZoneId: ZoneId,
   stadiumState: StadiumState,
   isAccessibilityNeeded: boolean = false
 ): ContextRecommendation[] {

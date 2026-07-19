@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import type { LanguageType } from './context/LanguageContext';
 
@@ -19,7 +19,6 @@ function DashboardLoader() {
 function AppContent() {
   const [activeTab, setActiveTab] = useState<'ops' | 'fan' | 'volunteers' | 'inclusive'>('ops');
   const { language, setLanguage } = useLanguage();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleLanguage = () => {
     const langs: LanguageType[] = ['en', 'es', 'fr'];

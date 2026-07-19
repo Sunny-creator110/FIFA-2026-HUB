@@ -1,4 +1,4 @@
-import type { StadiumZone, ZoneId } from './types';
+import type { StadiumZone } from './types';
 
 export function estimateWaitTimeMinutes(peopleInQueue: number, serviceRatePerMin: number = 15): number {
   if (serviceRatePerMin <= 0) return 0;
