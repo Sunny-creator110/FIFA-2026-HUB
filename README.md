@@ -1,60 +1,67 @@
-# 🏟️ FanPulse 2026 — AI World Cup Stadium Operations Platform
+# 🏟️ FanPulse 2026 — FIFA World Cup Stadium Hub
 
-> **FIFA World Cup 2026** · 16 Host Stadiums · Real-Time AI Fan Concierge & Intelligent Stadium Operations
+> **FIFA World Cup 2026** · 16 Host Stadiums · Real-Time AI Spectator Concierge & Stadium Operations Platform
 
-**FanPulse 2026** is a GenAI-powered, production-grade stadium operations platform and fan concierge web application engineered for the FIFA World Cup 2026. It combines **12 pure deterministic AI engines** with Google Gemini to serve fans, venue staff, security units, and volunteers across all match phases.
+[![Live Deployment](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://fifa-2026-hub-93p2.vercel.app/)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-FIFA_2026_HUB-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Sunny-creator110/FIFA-2026-HUB)
+[![Test Suite](https://img.shields.io/badge/Vitest-55_Passing_Tests-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://github.com/Sunny-creator110/FIFA-2026-HUB)
 
----
-
-## 📑 Table of Contents
-1. [Chosen Vertical](#chosen-vertical)
-2. [How This Solves the Problem Statement](#how-this-solves-the-problem-statement)
-3. [Deterministic Engine Architecture](#deterministic-engine-architecture)
-4. [Feature Showcase](#feature-showcase)
-5. [System Architecture Diagram](#system-architecture-diagram)
-6. [Tech Stack](#tech-stack)
-7. [Testing & Verification Matrix](#testing--verification-matrix)
-8. [Type Safety & Code Quality](#type-safety--code-quality)
-9. [Accessibility (WCAG 2.1 AA)](#accessibility-wcag-21-aa)
-10. [Project Structure](#project-structure)
-11. [Run Instructions](#run-instructions)
+**FanPulse 2026** is a comprehensive, full-stack, AI-enabled stadium intelligence & spectator concierge web application built for the **2026 FIFA World Cup**. It combines **12 pure deterministic engines** with Google Gemini AI to serve fans, stadium staff, emergency units, and volunteer teams across all host venues.
 
 ---
 
-## 🏆 Chosen Vertical
-**Challenge 04: Smart Stadiums & Tournament Operations — FIFA World Cup 2026**
-
-FanPulse 2026 addresses two critical stakeholder domains:
-- **Spectators & Fans**: Receive personalized, real-time, context-aware assistance — including step-by-step Dijkstra indoor navigation, personal matchday itineraries, shortest queue discovery (food/restrooms), weather advisories, emergency evacuation routing, crowd sentiment tracking, and wheelchair accessibility support.
-- **Stadium Operations & Organizers**: Gain real-time 9-zone crowd density heatmaps, 15-minute predictive queue congestion forecasting, AI Staff Copilot decision support, automated priority incident dispatch, and volunteer shift briefing generators.
+## 🌐 Live Application & Repository Links
+- 🎮 **Live Demo Application**: [https://fifa-2026-hub-93p2.vercel.app/](https://fifa-2026-hub-93p2.vercel.app/)
+- 💻 **GitHub Code Repository**: [https://github.com/Sunny-creator110/FIFA-2026-HUB](https://github.com/Sunny-creator110/FIFA-2026-HUB)
 
 ---
 
-## 💡 How This Solves the Problem Statement
+## 🏆 Key Hubs & Feature Breakdown
 
-### 1. "GenAI-powered solution"
-- **Context-Aware Gemini Integration**: Powered by Google Gemini with fallback protection for fan concierge queries and operational briefings (`/backend/src/services/geminiService.ts`).
-- **Proactive AI Briefings**: Autonomously identifies stadium queue bottlenecks and dispatches recommendations (`ProactiveInsightBrief.tsx`).
-- **AI Staff Copilot**: Natural language incident triage and automated staff assignment (`StaffCopilot.tsx`).
+### 1. 📊 Operations Control Center
+- **Live Spectator & Environmental Telemetry**: Total spectator attendance tracking (vs 60,000 capacity), solar panel power generation (450 kWh), smart waste recycling separation rate (78%), and wheelchair ramp status.
+- **Gate Queue & Congestion Telemetry**: Recharts dynamic bar charts tracking crowd loads across Gates G1 to G5.
+- **Smart Waste & Sustainability Telemetry**: Recharts donut chart detailing landfill vs recycled waste.
+- **Generative Incident Action Plan Simulator**: Evaluates natural language incident descriptions and generates operational dispatch checklists assigned to Security, Medical, or Volunteer Core.
 
-### 2. "Optimize stadium operations"
-- **Multi-Stadium Support**: Native support for all **16 FIFA World Cup 2026 Host Stadiums** (MetLife, Estadio Azteca, SoFi, AT&T, etc.).
-- **9-Zone Crowd Analytics**: Real-time zone density modeling, bottleneck detection, and predictive congestion forecasting 15 minutes ahead (`crowdAnalyticsEngine.ts`).
-- **Graphical Stadium Map**: High-fidelity interactive SVG zone map with color-coded gate loads and live status updates (`GraphicalStadiumMap.tsx`).
-- **Priority Incident Triage**: Incident severity sorting (Critical, High, Medium, Low) and proximity-based staff dispatch (`incidentEngine.ts`).
+### 2. 🤖 Fan Concierge Hub
+- **Matchday Welcome & Countdown**: USA vs BRA live match card, Gate 4 queue warnings, and Fast-Pass entry countdown timers.
+- **FIFA AI Concierge Assistant**: Multilingual chatbot (English, Spanish, French) paired with fast action chips (`Gate 4 queue status`, `Wheelchair accessibility`, `Bag policy & restrictions`).
+- **Interactive SVG Stadium Layout Map**: High-fidelity stadium layout highlighting accessible paths & gate queue status (G1–G5). Clickable gates auto-fill query prompts into the AI assistant!
+- **AR Wayfinding Navigation**: Smartphone camera overlay simulating seat distance telemetry and directional reticles.
 
-### 3. "Enhance the FIFA World Cup 2026 experience"
-- **Multilingual Support**: Dynamic switching across English (`en`), Spanish (`es`), and French (`fr`) with Web Speech API integration.
-- **8 Fan Quick Actions**: One-tap triggers for shortest food queues, seats, restrooms, weather, step-free routes, and SOS emergency alerts (`QuickActions.tsx`).
-- **Dijkstra Indoor Navigation**: Step-by-step shortest path routing between stadium zones with wheelchair accessibility filters (`navigationEngine.ts`).
-- **Green Travel Badge**: Rewards fans taking public transit (Metro/Shuttle) with CO2 savings tracking (`sustainabilityEngine.ts`).
-- **Inclusive Accessibility Hub**: Text-to-Speech (TTS) live match narration and ASL Sign Language stream (`InclusiveHub.tsx`).
+### 3. 🎙️ Volunteer Command Hub
+- **Volunteer Staff Distribution Heatmap**: Real-time sector density map with active volunteer count nodes (Sector 7: 42 Staff, Gate 4: 18 Staff).
+- **AI Briefing Center**: Multilingual voice input capture (Web Speech API) and live text translation dispatcher.
+- **Shift Allocation Optimization**: AI decision bot calculating peak congestion points and post-match spectator dispersal plans.
+- **Gamified Volunteer Team Leaderboards**: Interactive points awards and ranking tables.
+
+### 4. ♿ Inclusive Hub
+- **Live Match Audio Narration (TTS)**: Web Speech Synthesis narration player out loud with volume, speed, and pitch control drawers.
+- **ASL Virtual Sign Language Assistant**: Virtual interpreter avatar stream providing instant text-to-sign translations.
+- **Accessible Wayfinding**: Interactive map displaying Elevator 4B & Sector 102 Quiet Zone locations.
+- **Sensory & High Decibel Status**: Real-time decibel alert feed and light sensitivity strobe warning notifications.
+- **🔴 Request Steward Assistance**: One-tap dispatch button alerting nearby accessibility stewards.
 
 ---
 
-## ⚙️ Deterministic Engine Architecture
+## 🏗️ System Architecture & Workflow
 
-FanPulse 2026 isolates all core intelligence into **12 pure, framework-agnostic deterministic calculation engines** completely decoupled from UI render lifecycles:
+```mermaid
+graph TD
+    A[React 19 Frontend Client - Port 5173] -->|API Requests| B[Express Backend API / Vercel Serverless]
+    A -->|Pure Calculation| C[12 Deterministic Pure Engines]
+    A -->|Text-to-Speech| D[Web Speech Synthesis API]
+    A -->|Speech-to-Text| E[Web Speech Recognition API]
+    B -->|Schema Validation| F[Zod Middleware]
+    B -->|Security Guardrails| G[Prompt Injection Scanner]
+    B -->|Generative Tasks| H[Google Gemini API - gemini-2.0-flash]
+    B -->|Deterministic Fallback| C
+```
+
+---
+
+## ⚙️ 12 Pure Deterministic Engines
 
 | Engine | File | Responsibility |
 | :--- | :--- | :--- |
@@ -73,42 +80,9 @@ FanPulse 2026 isolates all core intelligence into **12 pure, framework-agnostic 
 
 ---
 
-## 🎨 Feature Showcase
-
-### Fan Experience Hub
-- ⚽ **Live Match Timeline**: Goals, cards, VAR reviews, and whistle events.
-- 📋 **Personal Itinerary**: Time-aware matchday schedule.
-- ⛅ **Weather Intelligence**: Live weather banner with entry gate recommendations.
-- 🔥 **Crowd Sentiment Meter**: Dynamic excitement scoring.
-- 🌿 **Green Travel Badge**: Public transit CO2 savings tracking.
-- ⚡ **8 Quick Actions**: Instant concierge routing buttons.
-
-### Operations Dashboard
-- 🗺️ **Interactive SVG Stadium Map**: Color-coded 9-zone map with real-time loads.
-- 📊 **Predictive Congestion**: 15-minute queue density forecast.
-- 🤖 **AI Staff Copilot**: Natural language incident triage and unit dispatch.
-- 📰 **Proactive AI Briefings**: Automated bottleneck mitigation insights.
-
----
-
-## 🏗️ System Architecture Diagram
-
-```mermaid
-graph TD
-    A[React 19 Frontend Client - Port 5173] -->|API Requests| B[Express Backend API - Port 5000]
-    A -->|Pure Calculation| C[12 Deterministic Pure Engines]
-    A -->|Text-to-Speech| D[Web Speech Synthesis API]
-    B -->|Schema Validation| E[Zod Middleware]
-    B -->|Security Guardrails| F[Prompt Injection Scanner]
-    B -->|Generative Tasks| G[Google Gemini API]
-    B -->|Deterministic Fallback| C
-```
-
----
-
 ## 🧪 Testing & Verification Matrix
 
-FanPulse 2026 features comprehensive automated Vitest test coverage across all engines, schema validation boundaries, and API services:
+FanPulse 2026 features automated Vitest unit test coverage across all calculation engines, schema validation boundaries, and serverless API endpoints:
 
 | Test File | Passed Tests | Domain Covered |
 | :--- | :---: | :--- |
@@ -130,42 +104,30 @@ FanPulse 2026 features comprehensive automated Vitest test coverage across all e
 
 ---
 
-## 🛡️ Type Safety & Code Quality
-
-- **Strict TypeScript (`tsc --noEmit`)**: Zero errors in both `/frontend` and `/backend`.
-- **Modular Components**: All React components decomposed into focused files (<200 lines each).
-- **Zod Schema Validation**: All incoming requests and data structures parsed through Zod boundaries.
-
----
-
-## ♿ Accessibility (WCAG 2.1 AA)
-
-- ✅ **Semantic Landmarks**: `<nav>`, `<main>`, `<section>`, `header`, `footer`.
-- ✅ **Keyboard Navigation**: Interactive SVG map elements have `tabIndex={0}`, `role="button"`, and respond to `Enter`/`Space`.
-- ✅ **Step-Free Wayfinding**: Wheelchair accessibility routing filter in Dijkstra navigation engine.
-- ✅ **Screen Reader Friendly**: `aria-live="polite"` announcements and Web Speech TTS narration controls.
-
----
-
-## 🚀 Run Instructions
+## 🛠️ Local Development & Running the Project
 
 ### Prerequisites
-- Node.js 18+
-- npm 9+
+- **Node.js**: v18.0.0+
+- **npm**: v9.0.0+
 
-### Installation
+### Step 1: Install Dependencies
 ```bash
 npm run install:all
 ```
 
-### Development
+### Step 2: Run Full Stack Concurrently
 ```bash
 npm run dev
 ```
-- **Frontend**: `http://localhost:5173`
-- **Backend**: `http://localhost:5000`
+- **Frontend Client**: `http://localhost:5173/`
+- **Backend API Server**: `http://localhost:5000/`
 
-### Testing
+### Step 3: Run Vitest Unit Test Suite
 ```bash
 npm run test
 ```
+
+---
+
+## 📝 License
+This project is open source and available under the [MIT License](LICENSE).
