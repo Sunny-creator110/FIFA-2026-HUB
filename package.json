@@ -12,7 +12,11 @@
     "test:frontend": "npm run test --prefix frontend",
     "test": "npm run test:backend && npm run test:frontend"
   },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  },
   "devDependencies": {
+    "@vercel/node": "^5.1.28",
     "concurrently": "^8.2.2"
   }
 }
