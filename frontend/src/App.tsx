@@ -57,51 +57,35 @@ function AppContent() {
               FIFA 2026 HUB
             </span>
           </div>
-          <div className="hidden lg:flex gap-6 items-center" role="tablist" aria-label="Main Navigation Tabs">
+          <div className="hidden lg:flex gap-6 items-center">
             <button 
-              id="tab-ops"
-              role="tab"
-              aria-selected={activeTab === 'ops'}
-              aria-controls="tabpanel-ops"
               onClick={() => setActiveTab('ops')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'ops' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'ops' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Operations Center
             </button>
             <button 
-              id="tab-fan"
-              role="tab"
-              aria-selected={activeTab === 'fan'}
-              aria-controls="tabpanel-fan"
               onClick={() => setActiveTab('fan')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'fan' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'fan' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Fan Concierge
             </button>
             <button 
-              id="tab-volunteers"
-              role="tab"
-              aria-selected={activeTab === 'volunteers'}
-              aria-controls="tabpanel-volunteers"
               onClick={() => setActiveTab('volunteers')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'volunteers' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'volunteers' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Volunteer Command
             </button>
             <button 
-              id="tab-inclusive"
-              role="tab"
-              aria-selected={activeTab === 'inclusive'}
-              aria-controls="tabpanel-inclusive"
               onClick={() => setActiveTab('inclusive')}
               className={`transition-colors font-body-md cursor-pointer ${
-                activeTab === 'inclusive' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1 font-bold' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
+                activeTab === 'inclusive' ? 'text-[#b5c4ff] border-b-2 border-[#f2bf52] pb-1' : 'text-[#c4c5d5] hover:text-[#dee2f1]'
               }`}
             >
               Inclusive Hub
