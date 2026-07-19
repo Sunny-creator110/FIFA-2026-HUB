@@ -10,11 +10,11 @@ interface Props {
 
 export const GraphicalStadiumMap: React.FC<Props> = ({
   zones,
-  activeZoneId,
   onSelectZone,
   highlightedRoute = []
 }) => {
   const getZoneColor = (zone: StadiumZone) => {
+    if (!zone) return '#10b981';
     if (highlightedRoute.includes(zone.id)) return '#3557bc';
     if (zone.status === 'compromised') return '#ff5252';
     if (zone.status === 'critical' || zone.isBottleneck) return '#ef4444';
@@ -23,20 +23,20 @@ export const GraphicalStadiumMap: React.FC<Props> = ({
   };
 
   return (
-    <div className="bg-[#171c26] border border-white/10 rounded-2xl p-4 shadow-xl">
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="text-sm font-bold text-[#b5c4ff] flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#f2bf52]">map</span>
-          Interactive SVG Stadium Zone Map (9 Zones)
+    <div className="bg-[#171c26] border border-white/10 rounded-2xl p-3 sm:p-4 shadow-xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+        <h3 className="text-xs sm:text-sm font-bold text-[#b5c4ff] flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#f2bf52] text-base sm:text-lg">map</span>
+          Interactive SVG Stadium Map (9 Zones)
         </h3>
-        <div className="flex items-center gap-3 text-xs">
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-[#10b981]"></span> Normal</span>
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-[#f59e0b]"></span> Congested</span>
-          <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-[#ef4444] animate-pulse"></span> Critical Gate 4</span>
+        <div className="flex items-center gap-2.5 text-[10px] sm:text-xs">
+          <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#10b981]"></span> Normal</span>
+          <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span> Congested</span>
+          <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#ef4444] animate-pulse"></span> Critical</span>
         </div>
       </div>
 
-      <div className="relative w-full aspect-[16/9] bg-[#0e131d] rounded-xl overflow-hidden border border-white/5 flex items-center justify-center p-4">
+      <div className="relative w-full aspect-[16/9] bg-[#0e131d] rounded-xl overflow-hidden border border-white/5 flex items-center justify-center p-2 sm:p-4">
         <svg viewBox="0 0 800 450" className="w-full h-full">
           {/* Pitch Field */}
           <rect x="250" y="125" width="300" height="200" rx="10" fill="#064e3b" stroke="#10b981" strokeWidth="2" />
@@ -54,7 +54,7 @@ export const GraphicalStadiumMap: React.FC<Props> = ({
           >
             <rect x="250" y="30" width="300" height="65" rx="8" fill={getZoneColor(zones[0])} opacity="0.85" />
             <text x="400" y="68" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="14">
-              Zone 1: North Gate 1 ({(zones[0]?.density * 100).toFixed(0)}%)
+              Zone 1: North Gate 1 ({(zones[0]?.density ? zones[0].density * 100 : 82).toFixed(0)}%)
             </text>
           </g>
 
